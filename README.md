@@ -1,5 +1,61 @@
 # GBDXtools utilities
 
+### Loading example
+```python
+import os
+import shutil
+import logging
+import datetime as dt
+from gbdxtools_utils import (
+    ImageryLoader,
+    LoadStatus,
+    ImagerySearcher,
+    AreaOfInterest,
+)
+
+logger = logging.getLogger(__name__)
+
+# GBDX_USERNAME and GBDX_PASSWORD env vars should be difined
+
+searcher = ImagerySearcher(
+    satellites=('WORLDVEIW02', 'WORLDVEIW03_VNIR'),
+    max_cloud_cover=0,                                  # no clouds
+    start_date=dt.date(2017, 1, 1),                     # imagery in range 01.01.2017 - now
+)
+
+loader = ImageryLoader(
+    rda=True,
+    pansharpen=True,
+)
+
+geojson = ... # load geojson
+
+
+for feature in geojson["features"]:
+    aoi = AreaOfInterest(geojson=feature)
+    search_results = searcher.get(aoi=aoi)
+    
+    for result in search_results:
+    
+        dst_dir = ... # define dst dir
+        os.makedirs(dst_dir)
+        
+        try:
+            status = loader.load(
+                image_id=result["identifier"],
+                path=dst_dir,
+                aoi=aoi,
+                spec='rgb', # to load imagery in rgb
+            )
+        except Exception as e:
+            status = LoadStatus.FAILED
+            logger.exception(e)
+        
+        # remove directory if imagery is not loaded
+        if status != LoadStatus.SUCCESS:
+            shutil.rmtree(dst_dir) 
+```
+
 ### API reference
 
 #### 1) Searching utility
