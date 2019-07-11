@@ -99,7 +99,7 @@ def filter_by_coverage(search_results: list, geometry: dict) -> list:
 #    GBDX searcher class
 # ---------------------------------------------
 
-class GBDXSearcher:
+class ImagerySearcher:
 
     def __init__(self,
                  satellites=GBDX_SATELLITES,
@@ -146,6 +146,13 @@ class GBDXSearcher:
             self,
             aoi: aoi.AreaOfInterest
     ) -> List[dict]:
+        """Request available imagery for given area of interest
+        Args:
+            - aoi (gbdxtools_utils.AreaOfInterest): area of interest
+
+        Return:
+            - List[dict]: each dict contain image metadata avaliable for given area
+        """
         params = self.get_search_params()
         search_results = self.gbdx.catalog.search(searchAreaWkt=aoi.wkt, **params)
 

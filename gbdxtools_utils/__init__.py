@@ -1,5 +1,5 @@
-from .searcher import GBDXSearcher
-from .loader import CachedImageLoader
+from .searcher import ImagerySearcher
+from .loader import ImageryLoader
 from .enums import LoadStatus
 from .aoi import AreaOfInterest
 

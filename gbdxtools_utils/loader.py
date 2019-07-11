@@ -12,13 +12,18 @@ from . import enums
 from . import errors
 
 
-class CachedImageLoader:
+class ImageryLoader:
+    """Load imagery and its meta and save on disk, store all fetched imagery to cache.
+    Args:
+        cache_image_expiration_time (int): time in seconds to cache fetched image
+        **image_params: image fetching parameters (pansharpen, dra, dtype, acomp, bands)
+    """
     IMAGE_NAME = 'orthophoto.tif'
     META_NAME = 'meta.geojson'
 
     def __init__(
             self,
-            cache_image_expiration_time=3600,
+            cache_image_expiration_time: int = 3600,
             **image_params,
     ):
         self._gbdx = gbdxtools.Interface()
@@ -39,7 +44,11 @@ class CachedImageLoader:
                 raise e
         return image
 
-    def _update_cache(self, image_id, image):
+    def _update_cache(
+            self,
+            image_id: str,
+            image: gbdxtools.CatalogImage
+    ):
         if image is not None:
             self._catalog_image_cache[image_id] = image
         else:
@@ -121,6 +130,19 @@ class CachedImageLoader:
             use_cache: bool = True,
             **load_kwargs,
     ):
+        """Load imagery and its meta and save on disk
+
+        Args:
+            image_id (str): gbdx catalog image id
+            path (str): direcotry to save `orthophoto.tif` and `meta.geojson` loaded files
+            aoi (aoi.AreaOfInterest): area of interest
+            use_cache (bool): - optional, use cached images or not
+            **load_kwargs: additional gbdx `.geotiff` method params (e.g. spec='rgb')
+
+        Returns:
+            gbdxtools_utils.LoadStatus: loading status (success, fail, etc.)
+
+        """
 
         image_path = os.path.join(path, self.IMAGE_NAME)
         meta_path = os.path.join(path, self.META_NAME)

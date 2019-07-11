@@ -7,7 +7,7 @@
 Search imagery in gbdx catalog. 
 
 ```python
-gbdxtools_utils.GBDXSercher
+gbdxtools_utils.ImagerySearcher
 ```
  
 ##### Support filters:
@@ -35,7 +35,7 @@ other (str) filters according to gbdxtools docs
 Load imagery and its meta and save on disk
 
 ```python
-gbdxtools_utils.CacheImageLoader
+gbdxtools_utils.ImageryLoader
 ```
 
 ##### Parameters:
