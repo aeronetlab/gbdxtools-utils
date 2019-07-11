@@ -1,6 +1,12 @@
 # GBDXtools utilities
 
-### Loading example
+### Table of contents
+
+1. [Example](#example)
+2. [API reference](#api-reference)
+3. [Installation](#installation)
+
+### Example
 ```python
 import os
 import shutil
@@ -120,3 +126,8 @@ gbdxtools_utils.ImageryLoader
         - gbdxtools_utils.LoadStatus: loading status (success, fail, etc.)
     """ 
 ``` 
+
+### Installation
+```bash
+$ pip install git+https://github.com/aeronetlab/gbdxtools-utils
+```
